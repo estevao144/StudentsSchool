@@ -1,17 +1,27 @@
 <?php
+//Escola.php
+namespace Escola;
 
 class Escola
 {
-    private int $matricula;
-    private string $nome;
-    private string $sobrenome;
-    private int $cpf;
-    
+    public $matriculas = [];
 
-public function __contruct(int $matricula, string $nome, string $sobrenome, int $cpf) {
-    $this->matricula = $matricula;
-    $this->nome = $nome;
-    $this->sobrenome = $sobrenome;
-    $this->cpf = $cpf; 
-}
+    public function adicionaAluno(Matricula $matricula)
+    {
+        $this->matriculas[] = $matricula;
+    }
+
+    public function calcularNotas()
+    {
+        $notas = [];
+        foreach ($this->matriculas as $matricula) {
+            $notas[] = $matricula->getNota();
+        }
+        return $notas;
+    }
+
+    public function getAll()
+    {
+        return $this->matriculas;
+    }
 }
