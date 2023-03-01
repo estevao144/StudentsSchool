@@ -1,20 +1,39 @@
 <?php
 
-require 'vendor/autoload.php';
-
-use Escola\Estudante;
-use Escola\Matricula;
+use Escola\Aluno;
 use Escola\Escola;
+use Escola\Matricula;
+
+require 'vendor/autoload.php';
+require '../Back/src/routes/router.php';
+
+$escola = new Escola();
+$aluno = new Aluno("Joaquim", "135132013", 1);
+
+$matricula = new Matricula($aluno, 1);
+$matricula->setNota(100);
+
+$escola->adicionaAluno($matricula);
 
 
-$matricula = new Matricula();
-$aluno1 = new Estudante(1, 'João', 'Silva', 123456789,);
+var_dump($escola->getAlunosAprovados());
 
-$matricula->adicionarAluno($aluno1);
+try{
+    $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+    $request = $_SERVER['REQUEST_METHOD'];
+    var_dump($uri, " ",$request);
+    
+    if(!isset($routes[$request])) {
+        throw new Exception("Rota {$uri} nao existe");
+    }
 
-$aluno2 = new Estudante(2, 'Maria', 'Silva', 987654321,);
+    if(!array_key_exists($uri, $router[$request])) {
+        throw new Exception("Rota {$request} nao existe");
+    }
+    
+    $router[$request][$uri]();
+} catch(Exception $e) {
+  echo  $e->getMessage();
+}
 
-$matricula->adicionarAluno($aluno2);
 
-echo $aluno1->getNome(); // João
-echo $aluno2->getNome(); // Maria

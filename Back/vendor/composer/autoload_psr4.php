@@ -6,5 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'League\\Plates\\' => array($vendorDir . '/league/plates/src'),
+    'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'Escola\\' => array($baseDir . '/src'),
 );
