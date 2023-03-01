@@ -1,63 +1,39 @@
 <?php
-//index.php
-
-require 'vendor/autoload.php';
-use FastRoute\RouteCollector;
 
 use Escola\Aluno;
-use Escola\Matricula;
 use Escola\Escola;
+use Escola\Matricula;
+
+require 'vendor/autoload.php';
+require '../Back/src/routes/router.php';
 
 $escola = new Escola();
+$aluno = new Aluno("Joaquim", "135132013", 1);
 
-$matricula1 = new Matricula(new Aluno('João', '091.359.036-35'), 1);
-$matricula2 = new Matricula(new Aluno('Maria', '091.359.136-36'), 2);
-$matricula1->setNota(10);
-$matricula2->setNota(80);
-$escola->adicionaAluno($matricula1, $matricula2);
+$matricula = new Matricula($aluno, 1);
+$matricula->setNota(100);
 
-$notas = $escola->calcularNotas();
+$escola->adicionaAluno($matricula);
 
-$aluno = new Aluno('João', '091.359.036-35');
 
-echo "Notas do aluno ".$aluno->getNome().": ";
+var_dump($escola->getAlunosAprovados());
 
-foreach ($escola->matriculas as $matricula) {
-    if ($matricula->getAluno()->getCpf() == $aluno->getCpf()) {
-        echo $matricula->getNota().", ";
+try{
+    $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+    $request = $_SERVER['REQUEST_METHOD'];
+    var_dump($uri, " ",$request);
+    
+    if(!isset($routes[$request])) {
+        throw new Exception("Rota {$uri} nao existe");
     }
+
+    if(!array_key_exists($uri, $router[$request])) {
+        throw new Exception("Rota {$request} nao existe");
+    }
+    
+    $router[$request][$uri]();
+} catch(Exception $e) {
+  echo  $e->getMessage();
 }
 
-echo("escola: ".$escola->getAll()[0]->getAluno()->getNome());
 
-
-// var_dump($escola->calcularNotas());
-// print_r($aluno->getCpf());
-
-
-// Define o caminho para as pastas que contêm os arquivos das rotas, controladores e modelos
-define('ROUTE_PATH', __DIR__ . '/routes');
-define('CONTROLLER_PATH', __DIR__ . '/controllers');
-define('MODEL_PATH', __DIR__ . '/models');
-
-// Inclui o arquivo do roteador
-require_once __DIR__ . '/src/routes/router.php';
-
-// Cria uma instância do roteador
-$router = new Router();
-
-// Define as rotas GET para as entidades Aluno, Escola e Matrícula
-$router->get('/alunos', 'alunoController.php');
-$router->get('/escolas', 'escolaController.php');
-$router->get('/matriculas', 'matriculaController.php');
-
-// Define as rotas POST para as entidades Aluno, Escola e Matrícula
-$router->post('/alunos', 'alunoController.php');
-$router->post('/escolas', 'escolaController.php');
-$router->post('/matriculas', 'matriculaController.php');
-
-// Define as rotas DELETE para a entidade Matrícula
-$router->delete('/matriculas/{id}', 'matriculaController.php');
-
-// Executa o roteador
-$router->run();

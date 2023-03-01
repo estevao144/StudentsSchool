@@ -20,8 +20,34 @@ class Escola
         return $notas;
     }
 
-    public function getAll()
+    public function getAlunos()
     {
-        return $this->matriculas;
+        $alunos = [];
+        foreach ($this->matriculas as $matricula) {
+            $alunos[] = $matricula->getAluno();
+        }
+        return $alunos;
+    }    
+    
+    public function getAlunosAprovados()
+    {
+        $alunos = [];
+        foreach ($this->matriculas as $matricula) {
+            if ($matricula->getNota() >= 7) {
+                $alunos[] = $matricula->getAluno();
+            }
+        }
+        return $alunos;
+    }
+
+    public function getAlunosReprovados()
+    {
+        $alunos = [];
+        foreach ($this->matriculas as $matricula) {
+            if ($matricula->getNota() < 7) {
+                $alunos[] = $matricula->getAluno();
+            }
+        }
+        return $alunos;
     }
 }

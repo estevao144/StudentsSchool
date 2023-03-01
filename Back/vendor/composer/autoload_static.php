@@ -11,6 +11,10 @@ class ComposerStaticInit9ad48663a6f40bc25f447d457cf55edf
     );
 
     public static $prefixLengthsPsr4 = array (
+        'L' => 
+        array (
+            'League\\Plates\\' => 14,
+        ),
         'F' => 
         array (
             'FastRoute\\' => 10,
@@ -22,6 +26,10 @@ class ComposerStaticInit9ad48663a6f40bc25f447d457cf55edf
     );
 
     public static $prefixDirsPsr4 = array (
+        'League\\Plates\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/plates/src',
+        ),
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',

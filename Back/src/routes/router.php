@@ -1,39 +1,35 @@
 <?php
 
-class Router
+function loading(string $controller, string $action)
 {
-    private $routes = [];
+    try{      
+ // se existe Controller
+ $controllerNamespace = "Escola\\Controllers\\{$controller}";
+ var_dump($controllerNamespace);
+    
+ if (!class_exists($controllerNamespace)) {
+     throw new Exception("Controller {$controller} nao existe");
+}
+    $controllerInstance = new $controllerNamespace();
 
-    // Define uma rota GET
-    public function get($path, $controller)
-    {
-        $this->routes['GET'][$path] = $controller;
-    }
+ if(!method_exists($controllerInstance, $action)) {
+     throw new Exception("Action {$action} nao existe no controller {$controller}");
+}
+    $controllerInstance->$action();
+}catch(Exception $e) {
+    echo $e->getMessage();
+}
+    
+    $router = [
+        "GET" => [
+            "/" => loading("HomeController.php", "index"),
+            "/alunos" => loading("alunosController.php", "index"),
+            // "/alunos/{id}" => loading("alunosController.php", "index"),
+        ],
+        "POST" => [
+            "/alunos" => loading("alunosController.php", "show"),
+            // "/alunos/{id}" => loading("alunosController.php", "s"),
+        ]
+    ];
 
-    // Define uma rota POST
-    public function post($path, $controller)
-    {
-        $this->routes['POST'][$path] = $controller;
-    }
-
-    // Define uma rota DELETE
-    public function delete($path, $controller)
-    {
-        $this->routes['DELETE'][$path] = $controller;
-    }
-
-    // Executa o roteador
-    public function run()
-    {
-        $method = $_SERVER['REQUEST_METHOD'];
-        $path = $_SERVER['REQUEST_URI'];
-
-        if (isset($this->routes[$method][$path])) {
-            $file = $this->routes[$method][$path];
-            require_once __DIR__ . "/$file";
-        } else {
-            http_response_code(404);
-            echo "Página não encontrada.";
-        }
-    }
 }

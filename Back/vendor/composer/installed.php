@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => 'dev-estevao-marques',
-        'version' => 'dev-estevao-marques',
-        'reference' => 'b5056e7857338bdf095ce2a6d1970f924b366e63',
+        'pretty_version' => 'dev-estevao-marques-simpleAutoload',
+        'version' => 'dev-estevao-marques-simpleAutoload',
+        'reference' => '6d0eac6d9374ca606ed73daa1a7f0688067cd47b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,11 +11,20 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => 'dev-estevao-marques',
-            'version' => 'dev-estevao-marques',
-            'reference' => 'b5056e7857338bdf095ce2a6d1970f924b366e63',
+            'pretty_version' => 'dev-estevao-marques-simpleAutoload',
+            'version' => 'dev-estevao-marques-simpleAutoload',
+            'reference' => '6d0eac6d9374ca606ed73daa1a7f0688067cd47b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'league/plates' => array(
+            'pretty_version' => 'v3.5.0',
+            'version' => '3.5.0.0',
+            'reference' => 'a6a3238e46c6e19af7318fdc36bfbe49b0620231',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../league/plates',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
